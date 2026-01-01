@@ -45,8 +45,6 @@ pipeline {
                 sh '''
                   export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
                   kubectl apply -f /opt/k8s
-                  kubectl rollout restart deployment/plant-recognition
-                  kubectl rollout status deployment/plant-recognition
                 '''
             }
         }
