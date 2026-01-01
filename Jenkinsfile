@@ -43,7 +43,7 @@ pipeline {
         stage('Deploy to k3s') {
             steps {
                 sh '''
-                  kubectl apply -f k8s/
+                  kubectl apply -f /home/azizbamar16/k8s/
                   kubectl rollout restart deployment/plant-recognition
                   kubectl rollout status deployment/plant-recognition
                 '''
