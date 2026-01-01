@@ -8,16 +8,12 @@ pipeline {
 
     stages {
 
-        stage('Checkout from GitHub') {
-            steps {
-                checkout scm
-            }
-        }
-
-        stage('Build Docker Image (with model)') {
+        stage('Build Docker Image') {
             steps {
                 sh '''
-                  docker build -t $IMAGE_NAME:$IMAGE_TAG .
+                  set -e
+                  export DOCKER_BUILDKIT=0
+                  docker build --progress=plain -t $IMAGE_NAME:$IMAGE_TAG .
                 '''
             }
         }
@@ -25,12 +21,12 @@ pipeline {
         stage('Login to Docker Hub') {
             steps {
                 withCredentials([usernamePassword(
-                    credentialsId: 'azizbamar-dockerhub',
+                    credentialsId: 'dockerhub-creds',
                     usernameVariable: 'DOCKER_USER',
                     passwordVariable: 'DOCKER_PASS'
                 )]) {
                     sh '''
-                      echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+                      echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
                     '''
                 }
             }
