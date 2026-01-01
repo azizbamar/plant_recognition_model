@@ -13,7 +13,7 @@ pipeline {
                 sh '''
                   set -e
                   export DOCKER_BUILDKIT=0
-                  docker build --progress=plain -t $IMAGE_NAME:$IMAGE_TAG .
+                  docker build -t $IMAGE_NAME:$IMAGE_TAG .
                 '''
             }
         }
